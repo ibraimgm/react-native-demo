@@ -1,15 +1,33 @@
-import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 
-const App = () => <Text style={styles.important}>Hello, world</Text>;
+import Header from './Header';
+import AddItem from './AddItem';
+import ListItems from './ListItems';
 
-const styles = StyleSheet.create({
-  important: {
-    color: 'red',
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
+const App = () => {
+  const [items, setItems] = useState(['React', 'React Native', 'Redux']);
+
+  // handles the 'Add' button click
+  const onAddItem = text => {
+    const clonedItems = items.slice();
+    clonedItems.push(text);
+    setItems(clonedItems);
+  };
+
+  // handles the deleting of an item
+  const onDeleteItem = index => {
+    const filteredItems = items.filter((_, idx) => idx !== index);
+    setItems(filteredItems);
+  };
+
+  return (
+    <View>
+      <Header text="My List Application" />
+      <AddItem onAddItem={onAddItem} />
+      <ListItems items={items} onDeleteItem={onDeleteItem} />
+    </View>
+  );
+};
 
 export default App;
